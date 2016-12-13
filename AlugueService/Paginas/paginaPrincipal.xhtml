@@ -1,0 +1,71 @@
+<?xml version="1.0" encoding="ISO-8859-1" ?>
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml"
+	xmlns:h="http://java.sun.com/jsf/html"
+	xmlns:f="http://java.sun.com/jsf/core"
+	xmlns:p="http://primefaces.org/ui"
+	xmlns:ui="http://java.sun.com/jsf/facelets">
+
+<h:head>
+	<link
+		href="#{facesContext.externalContext.requestContextPath}/resources/primefaces-theme/theme.css"
+		rel="stylesheet" type="text/css" />
+		
+	<meta http-equiv="Content-Type" content="text/html; charset=ISO-8859-1" />
+	<title>Alugue Service</title>
+	<link rel="icon" type="image/x-icon"
+		href="img/icone_locacao1-m94rps8dp3itdphgixjfeoquqbjdwk20rdkm5n24dw.png" />
+</h:head>
+<h:body>
+
+	<p:layout fullPage="true">
+		<p:layoutUnit position="west" size="245">
+			<h:form>
+
+				<h:commandLink action="/Paginas/paginaPrincipal">
+					<p:graphicImage
+						url="img/icone_locacao1-m94rps8dp3itdphgixjfeoquqbjdwk20rdkm5n24dw.png" />
+				</h:commandLink>
+				<p:panelGrid columns="1" layout="grid" style="text-align: center">
+					
+					<h:form>
+    					<h3 style="margin-top:0;color: #c02133 ">Alugue Service</h3>
+    						<p:clock pattern="dd/MM/yyyy HH:mm:ss" mode="server" />
+ 
+    
+					</h:form>
+
+
+					<p:menu>
+						<p:submenu label="Cliente">
+							<p:menuitem value="Cadastro Cliente" action="cadcliente" />
+							<p:menuitem value="Editar Cliente"
+								action="#{clienteBean.consultar()}" />
+						</p:submenu>
+						<p:submenu label="Aluguel">
+							<p:menuitem value="Novo Aluguel"
+								action="#{aluguelBean.novoAluguel()}" />
+							<p:menuitem value="Editar Aluguel"
+								action="#{alterarAluguelBean.novoEditarAluguel()}" />
+						</p:submenu>
+						<p:menuitem value="Sair" outcome="/Paginas/index"
+							icon="ui-icon-arrowreturn-1-w" action="#{loginBean.deslogar()}" />
+					</p:menu>
+				</p:panelGrid>
+			</h:form>
+		</p:layoutUnit>
+		<p:layoutUnit position="center">
+			<ui:insert name="central" />
+		</p:layoutUnit>
+		<p:layoutUnit position="south" >
+		<center>
+		<h:outputText value="Alunos: Antonio, Vinicius e Uilian" />
+		<p></p>
+		<h:outputText value="Trabalho Interdisciplinar:Java, Banco de dados, Programação Visual, Engenharia de Software" />
+        
+		</center>
+		
+    </p:layoutUnit>
+	</p:layout>
+</h:body>
+</html>

@@ -1,0 +1,159 @@
+<?xml version="1.0" encoding="ISO-8859-1" ?>
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml"
+	xmlns:h="http://java.sun.com/jsf/html"
+	xmlns:f="http://java.sun.com/jsf/core"
+	xmlns:p="http://primefaces.org/ui"
+	xmlns:ui="http://java.sun.com/jsf/facelets">
+
+	<h:head>
+		<link rel="icon" type="image/x-icon" href="img/icone_locacao1-m94rps8dp3itdphgixjfeoquqbjdwk20rdkm5n24dw.png"/>
+	</h:head>
+
+<ui:decorate template="paginaPrincipal.xhtml">
+	<ui:define name="central">
+		<p:fieldset legend="Edição de alguel">
+			<h:form id="formulario">
+				<p:dataTable id="alugueis" var="alug"
+					value="#{alterarAluguelBean.listaAluguel}" scrollable="true"
+					scrollHeight="350" emptyMessage="Não há nada aqui :)">
+					<f:facet name="header">
+						<h:outputLabel value="Aluguel" />
+					</f:facet>
+					<p:column headerText="ID" sortBy="#{alug.idAluguel}"
+						style="width:30px;text-align: center">
+						<h:outputText value="#{alug.idAluguel}" />
+					</p:column>
+					<p:column headerText="ID CLIENTE" sortBy="#{alug.idCliente}"
+						style="width:60px;text-align: center">
+						<h:outputText value="#{alug.idCliente}" />
+					</p:column>
+					<p:column headerText="ID OPERADOR" sortBy="#{alug.idOperador}"
+						style="width:60px;text-align: center">
+						<h:outputText value="#{alug.idOperador}" />
+					</p:column>
+					<p:column headerText="VALOR" style="width:60px;text-align: center">
+						<h:outputText value="#{alug.valorAluguel}">
+							<f:convertNumber currencySymbol="R$" type="currency" />
+						</h:outputText>
+					</p:column>
+					<p:column headerText="DATA ALUGUEL" sortBy="#{alug.dataAluguel}"
+						style="width:90px;text-align: center">
+						<h:outputText value="#{alug.dataAluguel}">
+							<f:convertDateTime pattern="dd/MM/yyyy" />
+						</h:outputText>
+					</p:column>
+					<p:column style="width:70px;text-align: center">
+						<p:commandButton update=":formulario:detalheAluguel"
+							oncomplete="PF('dlg').show()" icon="ui-icon-search">
+							<f:setPropertyActionListener value="#{alug}"
+								target="#{alterarAluguelBean.aluguelSelecionado}" />
+
+						</p:commandButton>
+					</p:column>
+				</p:dataTable>
+
+				<p:dialog header="Aluguel" widgetVar="dlg" closeOnEscape="false"
+					draggable="false" responsive="true" resizable="false"
+					positionType="absolute" width="700" closable="false" modal="true"
+					appendTo="@(body)">
+					<p:outputPanel id="detalheAluguel">
+						<p:panelGrid columns="4" columnClasses="label, value, label,value"
+							rendered="#{not empty alterarAluguelBean.aluguelSelecionado}"
+							layout="grid" id="panelAluguel">
+
+							<h:outputLabel value="ID aluguel:" />
+							<h:outputText
+								value="#{alterarAluguelBean.aluguelSelecionado.idAluguel}" />
+
+							<h:outputLabel value="ID Cliente:" />
+							<h:outputText
+								value="#{alterarAluguelBean.aluguelSelecionado.idCliente}" />
+
+							<h:outputLabel value="Status:" />
+							<h:outputText value="Cancelado"
+								rendered="#{alterarAluguelBean.aluguelSelecionado.statusAluguel == 0}" />
+							<h:outputText value="Ativo"
+								rendered="#{alterarAluguelBean.aluguelSelecionado.statusAluguel == 1}" />
+							<h:outputText value="Finalizado"
+								rendered="#{alterarAluguelBean.aluguelSelecionado.statusAluguel == 2}" />
+
+
+							<h:outputLabel value="Data do aluguel:" />
+							<h:outputText
+								value="#{alterarAluguelBean.aluguelSelecionado.dataAluguel}">
+								<f:convertDateTime pattern="dd/MM/yyyy" />
+							</h:outputText>
+
+							<h:outputLabel value="Data prevista:" />
+							<h:outputText
+								value="#{alterarAluguelBean.aluguelSelecionado.dataPrevista}">
+								<f:convertDateTime pattern="dd/MM/yyyy" />
+
+							</h:outputText>
+
+							<h:outputLabel value="Valor aluguel:" />
+							<h:outputText
+								value="#{alterarAluguelBean.aluguelSelecionado.valorAluguel}">
+								<f:convertNumber currencySymbol="R$" type="currency" />
+							</h:outputText>
+
+							<h:outputLabel value="Valor Multa:" />
+							<h:outputText
+								value="#{alterarAluguelBean.aluguelSelecionado.valorMulta}">
+								<f:convertNumber currencySymbol="R$" type="currency" />
+							</h:outputText>
+							<h:outputLabel value="Valor total:" />
+							<h:outputText
+								value="#{alterarAluguelBean.aluguelSelecionado.valorTotal}">
+								<f:convertNumber currencySymbol="R$" type="currency" />
+							</h:outputText>
+						</p:panelGrid>
+						<p:dataTable id="produtos" var="prod"
+							value="#{alterarAluguelBean.aluguelSelecionado.listaProduto}" emptyMessage="Não há nada aqui :)">
+
+							<f:facet name="header">
+								<p:outputLabel value="Produtos" />
+							</f:facet>
+
+							<p:column headerText="ID" sortBy="#{prod.idProduto}"
+								style="width:15px;text-align: center">
+								<h:outputLabel value="#{prod.idProduto}" />
+							</p:column>
+							<p:column headerText="Nome" sortBy="#{prod.nome}"
+								style="width:;text-align: center">
+								<h:outputLabel value="#{prod.nome}" />
+							</p:column>
+							<p:column headerText="Valor" sortBy="#{prod.valor}"
+								style="width:80px;text-align: center">
+								<h:outputLabel value="#{prod.valor}">
+									<f:convertNumber currencySymbol="R$" type="currency" />
+								</h:outputLabel>
+							</p:column>
+						</p:dataTable>
+						<p:commandButton value="Finalizar"
+							rendered="#{alterarAluguelBean.aluguelSelecionado.statusAluguel == 1}"
+							action="#{alterarAluguelBean.finalizaAluguel}"
+							update=":formulario:detalheAluguel" process="@this" />
+						<p:commandButton value="Cancelar"
+							rendered="#{alterarAluguelBean.aluguelSelecionado.statusAluguel == 1}"
+							action="#{alterarAluguelBean.cancelarAluguel()}"
+							update=":formulario:detalheAluguel" process="@this" />
+						<p:commandButton value="Fechar" oncomplete="PF('dlg').hide()"
+							update=":formulario:alugueis" process="@this" />
+
+
+					</p:outputPanel>
+				</p:dialog>
+			</h:form>
+
+
+
+
+		</p:fieldset>
+	</ui:define>
+
+</ui:decorate>
+
+
+</html>

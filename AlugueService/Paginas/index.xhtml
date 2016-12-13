@@ -1,0 +1,61 @@
+<?xml version="1.0" encoding="ISO-8859-1" ?>
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml"
+	xmlns:h="http://java.sun.com/jsf/html"
+	xmlns:f="http://java.sun.com/jsf/core"
+	xmlns:p="http://primefaces.org/ui"
+	xmlns:ui="http://java.sun.com/jsf/facelets"
+	xmlns:pe="http://primefaces.org/ui/extensions">
+<f:view contentType="text/html; charset=ISO-8859-1">
+	<h:head>
+		<meta http-equiv="Content-Type" content="text/html;charset=ISO-8859-1" />
+		<title>Alugue Service</title>
+		<link rel="icon" type="image/x-icon" href="img/icone_locacao1-m94rps8dp3itdphgixjfeoquqbjdwk20rdkm5n24dw.png"/>
+	</h:head>
+
+	<h:body>
+		<h:form>
+			<center>
+				<p:graphicImage
+					url="img/icone_locacao1-m94rps8dp3itdphgixjfeoquqbjdwk20rdkm5n24dw.png" />
+				<p:panelGrid columns="2" layout="tabular">
+				 
+					<f:facet name="header">
+						<p:outputLabel value="Login" />
+					</f:facet>
+					<p:outputLabel for="idUsuario" value="ID operador:" />
+					<p:inputText id="idUsuario" value="#{loginBean.idOperador}"
+						required="true" requiredMessage="Informe o ID" />
+
+
+					<p:outputLabel for="senha" value="Senha:" />
+					<p:password id="senha" value="#{loginBean.senhaOperador}"
+						required="true" requiredMessage="Informe a senha" />
+					<f:facet name="footer">
+
+						<p:commandButton value="Acessar"
+							action="#{loginBean.validaOperador()}">
+						</p:commandButton>
+					</f:facet>
+
+
+
+				</p:panelGrid>
+				<p:messages id="messages"  autoUpdate="true" />
+				
+
+
+			</center>
+		</h:form>
+		<p:layoutUnit position="south" >
+		<center>
+		<h:outputText value="Alunos: Antonio, Vinicius e Uilian" />
+		<p></p>
+		<h:outputText value="Trabalho Interdisciplinar:Java, Banco de dados, Programação Visual, Engenharia de Software" />
+        
+		</center>
+		
+    </p:layoutUnit>
+	</h:body>
+</f:view>
+</html>

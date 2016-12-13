@@ -1,0 +1,288 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml"
+	xmlns:h="http://java.sun.com/jsf/html"
+	xmlns:f="http://java.sun.com/jsf/core"
+	xmlns:p="http://primefaces.org/ui"
+	xmlns:ui="http://java.sun.com/jsf/facelets">
+
+<h:head>
+	
+	<link rel="icon" type="image/x-icon"
+		href="img/icone_locacao1-m94rps8dp3itdphgixjfeoquqbjdwk20rdkm5n24dw.png" />
+</h:head>
+
+<f:view contentType="text/html; charset=ISO-8859-1">
+	<ui:decorate template="paginaPrincipal.xhtml">
+		<ui:define name="central">
+			<p:fieldset legend="Novo aluguel">
+				<h:form id="formulario">
+					<p:wizard flowListener="#{aluguelBean.onFlowProcess}"
+						backLabel="Voltar" nextLabel="Avançar">
+						<p:tab title="Cliente" id="tabCliente">
+							<p:panel style="width=300px; height:400px;">
+								<p:outputPanel id="panelcliente">
+									<p:commandButton icon="ui-icon-search" value="Pesquisar"
+										oncomplete="PF('dlgcliente').show()" />
+									<p></p>
+									<h:panelGrid columns="2" columnClasses="label, value">
+										<h:outputLabel value="ID:" />
+										<p:outputLabel value="#{aluguelBean.clienteAluguel.idCliente}" />
+										<h:outputLabel value="Nome:" />
+										<p:outputLabel
+											value="#{aluguelBean.clienteAluguel.nome} #{aluguelBean.clienteAluguel.sobrenome}" />
+										<h:outputLabel value="CPF:" />
+										<p:outputLabel value="#{aluguelBean.clienteAluguel.cpf}" />
+										<h:outputLabel value="Cupom:" />
+										<h:outputText
+											value="#{aluguelBean.clienteAluguel.quantidadeCupom}" />
+									</h:panelGrid>
+								</p:outputPanel>
+							</p:panel>
+						</p:tab>
+						<p:tab title="Produto" id="tabProduto">
+							<p:panel style="width=300px; height:400px;" id="panelproduto">
+								<h:panelGrid columns="3">
+									<p:commandButton icon="ui-icon-search" value="Pesquisar"
+										oncomplete="PF('dlgproduto').show()" />
+
+									<p:commandButton icon="ui-icon-plus"
+										action="#{aluguelBean.adicionarProduto(aluguelBean.produtoSelecionado)}"
+										update="dtProdutos" value="Adicionar">
+									</p:commandButton>
+
+								</h:panelGrid>
+
+								<p></p>
+								<h:panelGrid columns="2" columnClasses="label, value"
+									id="panelProduto">
+									<p:outputLabel value="ID:" />
+									<p:outputLabel
+										value="#{aluguelBean.produtoSelecionado.idProduto}" />
+									<p:outputLabel value="Nome:" />
+									<h:outputText value="#{aluguelBean.produtoSelecionado.nome}" />
+									<p:outputLabel value="Descrição:" />
+									<p:outputLabel
+										value="#{aluguelBean.produtoSelecionado.descricao}" />
+									<p:outputLabel value="Valor" />
+									<p:outputLabel value="#{aluguelBean.produtoSelecionado.valor}">
+										<f:convertNumber currencySymbol="R$" type="currency" />
+									</p:outputLabel>
+								</h:panelGrid>
+
+								<p></p>
+								<p:dataTable id="dtProdutos" var="produtos"
+									value="#{aluguelBean.listaProdutoSelecionado}"
+									scrollable="true" scrollHeight="150" style="width:700px" emptyMessage="Não há nada aqui :)">
+									<p:column headerText="Id" style="width:30px;text-align: center"
+									>
+										<h:outputText value="#{produtos.idProduto}" />
+									</p:column>
+									<p:column headerText="Nome" style="text-align: center">
+										<h:outputText value="#{produtos.nome}" />
+									</p:column>
+									<p:column headerText="Valor"
+										style="width:80px;text-align: center">
+										<h:outputText value="#{produtos.valor}">
+											<f:convertNumber currencySymbol="R$" type="currency" />
+										</h:outputText>
+									</p:column>
+									<p:column style="width:45px;text-align: center"
+										headerText="Ação">
+										<p:commandButton icon="ui-icon-minus"
+											action="#{aluguelBean.removerProdutoSelecionado(produtos)}"
+											update="dtProdutos">
+										</p:commandButton>
+									</p:column>
+								</p:dataTable>
+							</p:panel>
+						</p:tab>
+						<p:tab title="Cupom" id="tabCupom">
+							<p:panel style="width=300px; height:400px;">
+								<p:selectOneButton value="#{aluguelBean.opcaoCupom}">
+									<f:selectItem itemLabel="Usar cupom" itemValue="-1"
+										itemDisabled="#{aluguelBean.clienteAluguel.quantidadeCupom == 0}" />
+									<f:selectItem itemLabel="Não usar cupom" itemValue="0" />
+									<f:selectItem itemLabel="Dar cupom" itemValue="1" />
+								</p:selectOneButton>
+							</p:panel>
+						</p:tab>
+						<p:tab title="Data" id="tabData">
+							<p:panelGrid columns="1" layout="grid">
+								<f:facet name="header">
+									<p:outputLabel value="Data prevista" />
+								</f:facet>
+								<p:calendar id="dataprevista"
+									value="#{aluguelBean.dataPrevista}" mode="inline"
+									required="true"
+									requiredMessage="Selecione a data prevista de entrega"
+									mindate="#{aluguelBean.dataMinima}"
+									maxdate="#{aluguelBean.dataMaxima}" locale="pt_BR" />
+								<p:message for="dataprevista" display="text"
+									style="text-align: center" />
+							</p:panelGrid>
+						</p:tab>
+						<p:tab title="Resumo" id="tabResumo">
+							<p:panel style="width=200px;">
+								<p:panelGrid columns="4" layout="grid" width="200px" rendered="#{aluguelBean.aluguel.idAluguel == 0}">
+									<f:facet name="header">
+										<p:outputLabel value="Operador" />
+									</f:facet>
+									<h:outputLabel value="Nome" id="nomeOperador" />
+									<h:outputLabel
+										value="#{loginBean.operadorLogado.nome} #{loginBean.operadorLogado.sobrenome}"
+										for="nomeOperador" />
+									<h:outputLabel value=" " />
+								</p:panelGrid>
+								<p:panelGrid columns="4" layout="grid" rendered="#{aluguelBean.aluguel.idAluguel == 0}">
+									<f:facet name="header">
+										<p:outputLabel value="Cliente" />
+									</f:facet>
+									<h:outputLabel value="Nome:" id="nomeCliente" />
+									<p:outputLabel for="nomeCliente"
+										value="#{aluguelBean.clienteAluguel.nome} #{aluguelBean.clienteAluguel.sobrenome}" />
+									<h:outputLabel value="CPF:" />
+									<p:outputLabel value="#{aluguelBean.clienteAluguel.cpf}" />
+								</p:panelGrid>
+								<p:panelGrid columns="2" layout="grid" rendered="#{aluguelBean.aluguel.idAluguel == 0}">
+									<f:facet name="header">
+										<p:outputLabel value="Cupom" />
+									</f:facet>
+									<h:outputLabel value="Cupom: " />
+									<h:outputLabel value="Usará"
+										rendered="#{aluguelBean.opcaoCupom == -1}" />
+									<h:outputLabel value="Não usará"
+										rendered="#{aluguelBean.opcaoCupom == 0}" />
+									<h:outputLabel value="Ganhará"
+										rendered="#{aluguelBean.opcaoCupom == 1}" />
+									<h:outputLabel value="Valor do desconto:"
+										rendered="#{aluguelBean.opcaoCupom == -1}" />
+									<h:outputLabel
+										value="#{cupomBean.getCupom(aluguelBean.clienteAluguel.idCliente)}"
+										rendered="#{aluguelBean.opcaoCupom == -1}">
+										<f:convertNumber currencySymbol="R$" type="currency" />
+									</h:outputLabel>
+								</p:panelGrid>
+								<p:panelGrid columns="1" layout="grid" rendered="#{aluguelBean.aluguel.idAluguel == 0}">
+									<f:facet name="header">
+										<p:outputLabel value="Produto" />
+									</f:facet>
+									<p:dataTable var="produtos"
+										value="#{aluguelBean.listaProdutoSelecionado}"
+										scrollable="true" scrollHeight="150px">
+										<p:column headerText="Id"
+											style="width:30px;text-align: center">
+											<h:outputText value="#{produtos.idProduto}" />
+										</p:column>
+										<p:column headerText="Nome" style="text-align: center">
+											<h:outputText value="#{produtos.nome}" />
+										</p:column>
+										<p:column headerText="valor"
+											style="width:80px;text-align: center">
+											<h:outputText value="#{produtos.valor}">
+												<f:convertNumber currencySymbol="R$" type="currency" />
+											</h:outputText>
+										</p:column>
+										<f:facet name="footer">
+											<p:outputLabel value="Valor do aluguel: " />
+											<p:outputLabel value="#{aluguelBean.valorTotal}">
+												<f:convertNumber currencySymbol="R$" type="currency" />
+											</p:outputLabel>
+										</f:facet>
+									</p:dataTable>
+								</p:panelGrid>
+								<p></p>
+								<p:commandButton value="Salvar"
+									rendered="#{aluguelBean.aluguel.idAluguel == 0}"
+									action="#{aluguelBean.salvarAluguel(loginBean.operadorLogado)}"
+									update="formulario:tabResumo"
+									ajax="false">
+								</p:commandButton>
+								<p:panelGrid columns="1" layout="grid"
+									rendered="#{aluguelBean.aluguel.idAluguel != 0}">
+									<f:facet name="header">
+										<p:outputLabel value="Contrato" />
+									</f:facet>
+									<p:editor value="#{aluguelBean.contrato}"
+										rendered="#{aluguelBean.aluguel.idAluguel != 0}" />
+									<p:commandButton action="/Paginas/paginaPrincipal"
+										value="Finalizar"
+										rendered="#{aluguelBean.aluguel.idAluguel != 0}" />
+								</p:panelGrid>
+							</p:panel>
+						</p:tab>
+					</p:wizard>
+					<p:dialog header="Lista de clientes" widgetVar="dlgcliente"
+						resizable="false" closeOnEscape="true" draggable="false"
+						responsive="true" modal="true" appendTo="@(body)">
+						<p:outputPanel>
+							<p:dataTable id="dtcliente" var="client"
+								value="#{aluguelBean.listaCliente}" scrollable="true"
+								scrollHeight="250" style="width:700px" emptyMessage="Não há nada aqui :)">
+								<p:column headerText="Id" style="width:30px;text-align: center">
+									<h:outputText value="#{client.idCliente}" />
+								</p:column>
+								<p:column headerText="Nome" style="text-align: center">
+									<h:outputText value="#{client.nome} #{client.sobrenome}" />
+								</p:column>
+								<p:column headerText="CPF"
+									style="width:120px;text-align: center">
+									<h:outputText value="#{client.cpf}" />
+								</p:column>
+								<p:column headerText="Cupom"
+									style="width:50px;text-align: center">
+									<h:outputText value="#{client.quantidadeCupom}" />
+								</p:column>
+								<p:column style="width:50px;text-align: center"
+									headerText="Ação">
+									<p:commandButton icon="ui-icon-plus"
+										oncomplete="PF('dlgcliente').hide()"
+										update=":formulario:panelcliente" process="@this">
+										<f:setPropertyActionListener value="#{client}"
+											target="#{aluguelBean.clienteAluguel}" />
+									</p:commandButton>
+								</p:column>
+							</p:dataTable>
+						</p:outputPanel>
+					</p:dialog>
+					<p:dialog header="Lista de produto" widgetVar="dlgproduto"
+						resizable="false" closeOnEscape="true" draggable="false"
+						responsive="true" modal="true" appendTo="@(body)">
+						<p:outputPanel>
+							<p:dataTable id="dtproduto" var="produto"
+								value="#{aluguelBean.listaProduto}" scrollable="true"
+								scrollHeight="250" style="width:1000px" emptyMessage="Não há nada aqui :)">
+								<p:column headerText="Id" style="width:30px;text-align: center">
+									<h:outputText value="#{produto.idProduto}" />
+								</p:column>
+								<p:column headerText="Nome">
+									<h:outputText value="#{produto.nome}" />
+								</p:column>
+								<p:column headerText="Valor"
+									style="width:80px;text-align: center">
+									<h:outputText value="#{produto.valor}">
+										<f:convertNumber currencySymbol="R$" type="currency" />
+									</h:outputText>
+								</p:column>
+								<p:column headerText="Tamanho"
+									style="width:100px;text-align: center">
+									<h:outputText value="#{produto.tamanho}" />
+								</p:column>
+								<p:column style="width:50px;text-align: center"
+									headerText="Ação">
+									<p:commandButton icon="ui-icon-plus"
+										oncomplete="PF('dlgproduto').hide()"
+										update=":formulario:panelProduto" process="@this">
+										<f:setPropertyActionListener value="#{produto}"
+											target="#{aluguelBean.produtoSelecionado}" />
+									</p:commandButton>
+								</p:column>
+							</p:dataTable>
+						</p:outputPanel>
+					</p:dialog>
+				</h:form>
+			</p:fieldset>
+		</ui:define>
+	</ui:decorate>
+</f:view>
+</html>

@@ -1,0 +1,127 @@
+<?xml version="1.0" encoding="ISO-8859-1" ?>
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml"
+	xmlns:h="http://java.sun.com/jsf/html"
+	xmlns:f="http://java.sun.com/jsf/core"
+	xmlns:p="http://primefaces.org/ui"
+	xmlns:pe="http://primefaces.org/ui/extensions"
+	xmlns:ui="http://java.sun.com/jsf/facelets">
+
+<h:head>
+	<link rel="icon" type="image/x-icon"
+		href="img/icone_locacao1-m94rps8dp3itdphgixjfeoquqbjdwk20rdkm5n24dw.png" />
+</h:head>
+
+<ui:decorate template="paginaPrincipal.xhtml">
+
+	<ui:define name="central">
+		<p:fieldset legend="Cadastro Cliente">
+
+
+
+			<h:form id="formulario">
+				<p:panelGrid columns="4" columnClasses="label, value, label, value"
+					layout="grid">
+					<p:outputLabel value="Nome: " />
+					<p:inputText id="idNome" value="#{clienteBean.cliente.nome}"
+						maxlength="50" required="true"
+						requiredMessage="Preencha o campo nome."
+						validatorMessage="Nome inválido.">
+						<f:validateRegex
+							pattern="^[A-Za-záàâãéèêíïóôõöúçñÁÀÂÃÉÈÍÏÓÔÕÖÚÇÑ ]+$" />
+					</p:inputText>
+					<p:outputLabel value="Sobrenome: " />
+					<p:inputText id="idSobrenome"
+						value="#{clienteBean.cliente.sobrenome}" maxlength="50"
+						required="true" requiredMessage="Preencha o campo sobrenome."
+						validatorMessage="Sobrenome inválido.">
+						<f:validateRegex
+							pattern="^[A-Za-záàâãéèêíïóôõöúçñÁÀÂÃÉÈÍÏÓÔÕÖÚÇÑ ]+$" />
+					</p:inputText>
+					<p:outputLabel value="CPF: " />
+					<p:inputMask id="idCpf" value="#{clienteBean.cliente.cpf}"
+						mask="999.999.999-99" required="true"
+						requiredMessage="Preencha o campo cpf." />
+					<p:outputLabel value="Telefone" />
+					<p:inputMask id="idTelefone"
+						value="#{clienteBean.cliente.telefone}" mask="(99)9999-9999"
+						required="true" requiredMessage="Preencha o campo telefone." />
+					<p:outputLabel value="Celular: " />
+					<p:inputMask id="idCelular" value="#{clienteBean.cliente.celular}"
+						mask="(99)9999-9999?9" required="true"
+						requiredMessage="Preencha o campo celular." />
+					<p:outputLabel value="Rua: " />
+					<p:inputText id="idRua" value="#{clienteBean.endereco.rua}"
+						maxlength="50" required="true"
+						requiredMessage="Preencha o campo rua." />
+					<p:outputLabel value="Bairro: " />
+					<p:inputText id="idBairro" value="#{clienteBean.endereco.bairro}"
+						maxlength="50" required="true"
+						requiredMessage="Preencha o campo bairro." />
+					<p:outputLabel value="Número: " />
+					<p:inputText id="idNumero" value="#{clienteBean.endereco.numero}"
+						maxlength="10" required="true"
+						requiredMessage="Preencha o campo numero." />
+					<p:outputLabel value="Cidade: " />
+
+					<p:selectOneMenu id="idCidade"
+						value="#{clienteBean.endereco.cidade}" style="width:170px"
+						required="true" requiredMessage="Preencha o campo cidade.">
+						<f:selectItem itemLabel="Selecione a cidade" itemValue=""
+							validatorMessage="Nome inválido." />
+						<f:selectItem itemLabel="Adrianópolis" itemValue="Adrianópolis" />
+						<f:selectItem itemLabel="Agudos do Sul" itemValue="Agudos do Sul" />
+						<f:selectItem itemLabel="Almirante Tamandaré"
+							itemValue="Almirante Tamandaré" />
+						<f:selectItem itemLabel="Araucária" itemValue="Araucária" />
+						<f:selectItem itemLabel="Balsa Nova" itemValue="Balsa Nova" />
+						<f:selectItem itemLabel="Bocaiuva do Sul"
+							itemValue="Bocaiuva do Sul" />
+						<f:selectItem itemLabel="Campina Grande do Sul"
+							itemValue="Campina Grande do Sul" />
+						<f:selectItem itemLabel="Campo do Tenente"
+							itemValue="Campo do Tenente" />
+						<f:selectItem itemLabel="Campo Largo" itemValue="Campo Largo" />
+						<f:selectItem itemLabel="Campo Magro" itemValue="Campo Magro" />
+						<f:selectItem itemLabel="Cerro Azul" itemValue="Cerro Azul" />
+						<f:selectItem itemLabel="Colombo" itemValue="Colombo" />
+						<f:selectItem itemLabel="Contenda" itemValue="Contenda" />
+						<f:selectItem itemLabel="Curitiba" itemValue="Curitiba" />
+						<f:selectItem itemLabel="Doutor Ulysses"
+							itemValue="Doutor Ulysses" />
+						<f:selectItem itemLabel="Fazenda Rio Grande"
+							itemValue="Fazenda Rio Grande" />
+						<f:selectItem itemLabel="Itaperuçu" itemValue="Itaperuçu" />
+						<f:selectItem itemLabel="Lapa" itemValue="Lapa" />
+						<f:selectItem itemLabel="Mandirituba" itemValue="Mandirituba" />
+						<f:selectItem itemLabel="Piên" itemValue="Piên" />
+						<f:selectItem itemLabel="Pinhais" itemValue="Pinhais" />
+						<f:selectItem itemLabel="Piraquara" itemValue="Piraquara" />
+						<f:selectItem itemLabel="Quatro Barras" itemValue="Quatro Barras" />
+						<f:selectItem itemLabel="Quitandinha" itemValue="Quitandinha" />
+						<f:selectItem itemLabel="Rio Branco do Sul"
+							itemValue="Rio Branco do Sul" />
+						<f:selectItem itemLabel="Rio Negro" itemValue="Rio Negro" />
+						<f:selectItem itemLabel="São José dos Pinhais"
+							itemValue="São José dos Pinhais" />
+						<f:selectItem itemLabel="Tijucas do Sul"
+							itemValue="Tijucas do Sul" />
+						<f:selectItem itemLabel="Tunas do Paraná"
+							itemValue="Tunas do Paraná" />
+					</p:selectOneMenu>
+					<p:outputLabel value="CEP: " />
+					<p:inputMask id="idCep" value="#{clienteBean.endereco.cep}"
+						mask="99999-999" required="true"
+						requiredMessage="Preencha o campo cep" />
+					<p:commandButton value="Salvar" icon="ui-icon-disk" ajax="false"
+						action="#{clienteBean.inserir()}" />
+				</p:panelGrid>
+				<p:messages id="messages" showDetail="false" autoUpdate="true" />
+			</h:form>
+		</p:fieldset>
+	</ui:define>
+
+</ui:decorate>
+
+
+</html>

@@ -1,0 +1,193 @@
+<?xml version="1.0" encoding="ISO-8859-1" ?>
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml"
+	xmlns:h="http://java.sun.com/jsf/html"
+	xmlns:f="http://java.sun.com/jsf/core"
+	xmlns:p="http://primefaces.org/ui"
+	xmlns:ui="http://java.sun.com/jsf/facelets"
+	xmlns:pe="http://primefaces.org/ui/extensions">
+<h:head>
+	<link
+		href="#{facesContext.externalContext.requestContextPath}/resources/primefaces-theme/theme.css"
+		rel="stylesheet" type="text/css" />
+	<link rel="icon" type="image/x-icon"
+		href="img/icone_locacao1-m94rps8dp3itdphgixjfeoquqbjdwk20rdkm5n24dw.png" />
+</h:head>
+<ui:decorate template="paginaPrincipal.xhtml">
+
+	<ui:define name="central">
+		<p:fieldset legend="Listagem de  Clientes">
+			<h:form id="form">
+				<p:dataTable id="clientes" var="client"
+					value="#{clienteBean.listaCliente}" scrollable="true"
+					scrollHeight="350" emptyMessage="Não há nada aqui :)">
+					<f:facet name="header">
+						<p:outputLabel value="Clientes" />
+					</f:facet>
+					<p:column headerText="Id" sortBy="#{client.idCliente}"
+						style="width:80px;text-align: center">
+						<h:outputText value="#{client.idCliente}" />
+					</p:column>
+					<p:column headerText="Nome" sortBy="#{client.nome}"
+						style="text-align: center">
+						<h:outputText value="#{client.nome}" />
+					</p:column>
+					<p:column headerText="Sobrenome" sortBy="#{client.sobrenome}"
+						style="text-align: center">
+						<h:outputText value="#{client.sobrenome}" />
+					</p:column>
+					<p:column headerText="CPF" style="width:120px;text-align:center">
+						<h:outputText value="#{client.cpf}" />
+					</p:column>
+					<p:column style="width:70px;text-align: center">
+						<p:commandButton update=":form:detalhecliente"
+							oncomplete="PF('dlg').show()" icon="ui-icon-search"
+							action="#{editarClienteBean.atualizarStatus()}">
+							<f:setPropertyActionListener value="#{client}"
+								target="#{editarClienteBean.clienteSelecionado}" />
+
+						</p:commandButton>
+					</p:column>
+				</p:dataTable>
+				<p:messages id="messages" showDetail="false" autoUpdate="true" />
+				<p:dialog header="Cliente" widgetVar="dlg" closeOnEscape="true"
+					draggable="false" responsive="true" resizable="false">
+					<p:outputPanel id="detalhecliente">
+						<p:panelGrid columns="2" columnClasses="label,value"
+							rendered="#{not empty editarClienteBean.clienteSelecionado}">
+							<h:outputLabel value=" Nome " />
+							<p:inplace>
+								<p:inputText id="name"
+									value="#{editarClienteBean.clienteSelecionado.nome}"
+									required="true" maxlength="50"
+									requiredMessage="Preencha o campo nome, cadastro não foi alterado."
+									validatorMessage="Nome inválido, cadastro não foi alterado.">
+									<f:validateRegex
+										pattern="^[A-Za-záàâãéèêíïóôõöúçñÁÀÂÃÉÈÍÏÓÔÕÖÚÇÑ ]+$" />
+								</p:inputText>
+							</p:inplace>
+
+							<h:outputLabel value=" Sobrenome " />
+							<p:inplace>
+								<p:inputText id="sobrenome"
+									value="#{editarClienteBean.clienteSelecionado.sobrenome}"
+									required="true" maxlength="50"
+									requiredMessage="Preencha o campo sobrenome, cadastro não foi alterado."
+									validatorMessage="Sobrenome inválido, cadastro não foi alterado.">
+									<f:validateRegex
+										pattern="^[A-Za-záàâãéèêíïóôõöúçñÁÀÂÃÉÈÍÏÓÔÕÖÚÇÑ ]+$" />
+								</p:inputText>
+							</p:inplace>
+							<h:outputLabel value=" CPF " />
+
+							<p:outputLabel id="idCpf"
+								value="#{editarClienteBean.clienteSelecionado.cpf}" />
+
+							<h:outputLabel value=" Telefone " />
+							<p:inplace>
+								<p:inputMask id="idTelefone"
+									value="#{editarClienteBean.clienteSelecionado.telefone}"
+									mask="(99)9999-9999" required="true"
+									requiredMessage="Preencha o campo telefone, cadastro não foi alterado." />
+							</p:inplace>
+							<h:outputLabel value=" Celular " />
+							<p:inplace>
+								<p:inputMask id="idCelular"
+									value="#{editarClienteBean.clienteSelecionado.celular}"
+									mask="(99)9999-9999?9" required="true"
+									requiredMessage="Preencha o campo celular, cadastro não foi alterado." />
+							</p:inplace>
+							<h:outputLabel value=" Rua " />
+							<p:inplace>
+								<h:inputText id="rua"
+									value="#{editarClienteBean.clienteSelecionado.endereco.rua}"
+									maxlength="50" required="true"
+									requiredMessage="Preencha o campo rua, cadastro não foi alterado." />
+							</p:inplace>
+							<h:outputLabel value=" Numero " />
+							<p:inplace>
+								<h:inputText id="numero"
+									value="#{editarClienteBean.clienteSelecionado.endereco.numero}"
+									maxlength="10" required="true"
+									requiredMessage="Preencha o campo numero, cadastro não foi alterado." />
+							</p:inplace>
+							<h:outputLabel value=" Bairro " />
+							<p:inplace>
+								<h:inputText id="bairro"
+									value="#{editarClienteBean.clienteSelecionado.endereco.bairro}"
+									maxlength="50" required="true"
+									requiredMessage="Preencha o campo bairro, cadastro não foi alterado." />
+							</p:inplace>
+							<h:outputLabel value=" Cidade " />
+							<p:selectOneMenu id="idCidade"
+								value="#{editarClienteBean.clienteSelecionado.endereco.cidade}"
+								style="width:170px" required="true"
+								requiredMessage="Selecione a cidade, cadastro não foi alterado.">
+
+								<f:selectItem itemLabel="Adrianópolis" itemValue="Adrianópolis" />
+								<f:selectItem itemLabel="Agudos do Sul"
+									itemValue="Agudos do Sul" />
+								<f:selectItem itemLabel="Almirante Tamandaré"
+									itemValue="Almirante Tamandaré" />
+								<f:selectItem itemLabel="Araucária" itemValue="Araucária" />
+								<f:selectItem itemLabel="Balsa Nova" itemValue="Balsa Nova" />
+								<f:selectItem itemLabel="Bocaiuva do Sul"
+									itemValue="Bocaiuva do Sul" />
+								<f:selectItem itemLabel="Campina Grande do Sul"
+									itemValue="Campina Grande do Sul" />
+								<f:selectItem itemLabel="Campo do Tenente"
+									itemValue="Campo do Tenente" />
+								<f:selectItem itemLabel="Campo Largo" itemValue="Campo Largo" />
+								<f:selectItem itemLabel="Campo Magro" itemValue="Campo Magro" />
+								<f:selectItem itemLabel="Cerro Azul" itemValue="Cerro Azul" />
+								<f:selectItem itemLabel="Colombo" itemValue="Colombo" />
+								<f:selectItem itemLabel="Contenda" itemValue="Contenda" />
+								<f:selectItem itemLabel="Curitiba" itemValue="Curitiba" />
+								<f:selectItem itemLabel="Doutor Ulysses"
+									itemValue="Doutor Ulysses" />
+								<f:selectItem itemLabel="Fazenda Rio Grande"
+									itemValue="Fazenda Rio Grande" />
+								<f:selectItem itemLabel="Itaperuçu" itemValue="Itaperuçu" />
+								<f:selectItem itemLabel="Lapa" itemValue="Lapa" />
+								<f:selectItem itemLabel="Mandirituba" itemValue="Mandirituba" />
+								<f:selectItem itemLabel="Piên" itemValue="Piên" />
+								<f:selectItem itemLabel="Pinhais" itemValue="Pinhais" />
+								<f:selectItem itemLabel="Piraquara" itemValue="Piraquara" />
+								<f:selectItem itemLabel="Quatro Barras"
+									itemValue="Quatro Barras" />
+								<f:selectItem itemLabel="Quitandinha" itemValue="Quitandinha" />
+								<f:selectItem itemLabel="Rio Branco do Sul"
+									itemValue="Rio Branco do Sul" />
+								<f:selectItem itemLabel="Rio Negro" itemValue="Rio Negro" />
+								<f:selectItem itemLabel="São José dos Pinhais"
+									itemValue="São José dos Pinhais" />
+								<f:selectItem itemLabel="Tijucas do Sul"
+									itemValue="Tijucas do Sul" />
+								<f:selectItem itemLabel="Tunas do Paraná"
+									itemValue="Tunas do Paraná" />
+							</p:selectOneMenu>
+							<h:outputLabel value=" CEP " />
+							<p:inplace>
+								<p:inputMask id="idCep"
+									value="#{editarClienteBean.clienteSelecionado.endereco.cep}"
+									mask="99999-999" required="true"
+									requiredMessage="Preencha o campo cep, cadastro não foi alterado." />
+							</p:inplace>
+
+							<p:inputSwitch value="#{editarClienteBean.statusCliente}"
+								onLabel="Ativo" offLabel="Inativo" />
+							<p:commandButton value="Atualizar"
+								action="#{editarClienteBean.atualizar()}"
+								update=":form:clientes" oncomplete="PF('dlg').hide()" />
+						</p:panelGrid>
+					</p:outputPanel>
+				</p:dialog>
+			</h:form>
+
+
+
+		</p:fieldset>
+	</ui:define>
+
+</ui:decorate>
+</html>
